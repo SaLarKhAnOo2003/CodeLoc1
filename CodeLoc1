@@ -1,0 +1,2 @@
+def country_cloning():
+    print("Country cloning method active")
