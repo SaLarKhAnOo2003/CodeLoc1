@@ -1,14 +1,20 @@
-#==================[USER-AGENTS]==================# import random
+import random
 
-def ua1(): model = random.choice(["SM-J320H", "GT-I9500", "SM-G935F", "SM-A505F", "SM-J701F"]) android = str(random.randint(6,12)) version = f"{random.randint(111,999)}.0.0.{random.randint(1,99)}.{random.randint(1,999)}" return f"Dalvik/2.1.0 (Linux; U; Android {android}; {model} Build/LMY48B) [FBAN/FB4A;FBAV/{version};FBBV/{random.randint(1111111,9999999)};FBLC/en_US;FBDV/{model};FBCR/null;FBMF/samsung;FBBD/samsung;FBSV/{android};FBCA/armeabi-v7a:armeabi;]"
+def ua1():
+    model = random.choice(["Infinix X688C", "Redmi Note 8", "Samsung SM-A107F", "Vivo Y20"])
+    android = str(random.randint(7, 13))
+    ua = f"Dalvik/2.1.0 (Linux; U; Android {android}; {model} Build/QP1A.{random.randint(111111,999999)}.{random.randint(111,999)}) [FBAN/FB4A;FBAV/360.0.0.18.112;FBBV/332814300;FBLC/en_US;FBCR/null;FBMF/{model};FBBD/{model};FBDV/{model};FBSV/{android};FBCA/armeabi-v7a:armeabi;FBDM/{{density=2.0,width=720,height=1280}};FB_FW/1;]"
+    return ua
 
-def ua2(): model = random.choice(["Redmi Note 9", "V2027", "CPH1909", "Infinix X657"]) android = random.choice(["10", "11", "12"]) return f"Mozilla/5.0 (Linux; Android {android}; {model}) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/{random.randint(70,100)}.0.{random.randint(1000,5000)}.101 Mobile Safari/537.36"
+def ua2():
+    ua = f"Mozilla/5.0 (Linux; Android {random.randint(7,13)}; {random.choice(['SM-A107F','Infinix X682B'])}) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/{random.randint(80,120)}.0.{random.randint(1000,9999)}.101 Mobile Safari/537.36"
+    return ua
 
-ugen = [ua1(), ua2()]
+def file_cloning():
+    print("[•] File cloning method active")
 
-#==================[FILE CLONING METHOD]==================# def file_cloning(): print("\n[•] FILE CLONING METHOD ACTIVE") try: path = input("[•] Enter file path: ") with open(path, 'r') as file: for line in file: uid, name = line.strip().split('|') passlist = [name.split(' ')[0]+"123", name.split(' ')[0]+"12345"] print(f"[TRYING] {uid} | {passlist}") except Exception as e: print("[!] File error:", e)
+def random_cloning():
+    print("[•] Random cloning method active")
 
-#==================[RANDOM CLONING METHOD]==================# def random_cloning(): print("\n[•] RANDOM CLONING METHOD ACTIVE") code = input("[•] Enter SIM code (e.g. 9370): ") limit = int(input("[•] Enter limit: ")) for i in range(limit): uid = code + str(random.randint(1000000, 9999999)) passlist = ["786786", "pakistan123", "khan123"] print(f"[TRYING] {uid} | {passlist}")
-
-#==================[GMAIL CLONING METHOD]==================# def gmail_cloning(): print("\n[•] GMAIL CLONING METHOD ACTIVE") name = input("[•] Enter base name (e.g. ali): ") domain = input("[•] Enter domain (e.g. @gmail.com): ") limit = int(input("[•] Enter limit: ")) for i in range(limit): uid = name + str(random.randint(100,999)) + domain passlist = [name+"123", name+"12345", name+"@123"] print(f"[TRYING] {uid} | {passlist}")
-
+def gmail_cloning():
+    print("[•] Gmail cloning method active")
