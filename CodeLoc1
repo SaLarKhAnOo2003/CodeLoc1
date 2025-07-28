@@ -1,2 +1,24 @@
-def country_cloning():
-    print("Country cloning method active")
+def method_menu():
+    print("[1] File Cloning")
+    print("[2] Random Cloning")
+    print("[3] Gmail Cloning")
+    method = input("Choose method: ")
+    if method == "1":
+        file_cloning()
+    elif method == "2":
+        random_cloning()
+    elif method == "3":
+        gmail_cloning()
+    else:
+        print("Invalid input")
+
+def file_cloning():
+    print("File cloning started...")
+
+def random_cloning():
+    print("Random cloning started...")
+
+def gmail_cloning():
+    print("Gmail cloning started...")
+
+method_menu()
