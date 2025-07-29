@@ -1,29 +1,21 @@
-# ================== [ USER AGENT SETUP ] ================== #
+# CodeLoc1: Dynamic UA, locale and location for Facebook methods
+import random
+
 ua_list = [
-    "Mozilla/5.0 (Linux; Android 12; SM-A107F) AppleWebKit/537.36 Chrome/115.0.0.0 Mobile Safari/537.36",
-    "Mozilla/5.0 (Linux; Android 11; Infinix X6811) AppleWebKit/537.36 Chrome/114.0.0.0 Mobile Safari/537.36",
-    "Mozilla/5.0 (Linux; Android 10; TECNO KC8) AppleWebKit/537.36 Chrome/110.0.5481.153 Mobile Safari/537.36",
-    "Mozilla/5.0 (Linux; Android 13; Redmi Note 11) AppleWebKit/537.36 Chrome/116.0.0.0 Mobile Safari/537.36",
-    "Mozilla/5.0 (Linux; Android 9; vivo 1820) AppleWebKit/537.36 Chrome/114.0.5735.61 Mobile Safari/537.36",
-    "Mozilla/5.0 (Linux; Android 11; SM-M115F) AppleWebKit/537.36 Chrome/96.0.4664.45 Mobile Safari/537.36",
-    "Mozilla/5.0 (Linux; Android 8.1; itel A45) AppleWebKit/537.36 Chrome/96.0.4664.45 Mobile Safari/537.36",
-    "Mozilla/5.0 (Linux; Android 10; SM-A115F) AppleWebKit/537.36 Chrome/89.0.4389.105 Mobile Safari/537.36",
-    "Mozilla/5.0 (Linux; Android 13; CPH2381) AppleWebKit/537.36 Chrome/112.0.0.0 Mobile Safari/537.36"
+    "Mozilla/5.0 (Linux; Android 12; SM-A127F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Mobile Safari/537.36",
+    "Mozilla/5.0 (Linux; Android 11; SM-M215F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Mobile Safari/537.36",
+    "Mozilla/5.0 (Linux; Android 10; Infinix X690B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Mobile Safari/537.36",
+    "Mozilla/5.0 (Linux; Android 9; Redmi Note 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.5481.65 Mobile Safari/537.36",
+    "Mozilla/5.0 (Linux; Android 8.1.0; TECNO CX Air) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Mobile Safari/537.36"
 ]
 
-# ================== [ METHOD SETUP ] ================== #
-def ffb1(ids,names,passlist): 
-    from main_methods import run_method1
-    run_method1(ids,names,passlist,ua_list)
+def get_ua():
+    return random.choice(ua_list)
 
-def ffb2(ids,names,passlist): 
-    from main_methods import run_method2
-    run_method2(ids,names,passlist,ua_list)
+# Random Locale for Facebook (used in POST data)
+locales = ['en_US', 'en_GB', 'id_ID', 'fr_FR', 'es_ES', 'hi_IN', 'pt_BR']
+code1 = random.choice(locales)
 
-def ffb3(ids,names,passlist): 
-    from main_methods import run_method3
-    run_method3(ids,names,passlist,ua_list)
-
-def ffb4(ids,names,passlist): 
-    from main_methods import run_method4
-    run_method4(ids,names,passlist,ua_list)
+# Random Client Country Code (used in POST data)
+country_codes = ['US', 'IN', 'PK', 'AF', 'BD', 'ID', 'BR', 'NG']
+loc1 = random.choice(country_codes)
